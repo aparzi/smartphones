@@ -1,0 +1,31 @@
+{
+  "devices": [
+    {
+      "label": "One Plus 8",
+      "os": "android",
+      "price": 750,
+      "rate": 3,
+      "memory": 7400,
+      "desc": "One Plus 5 is a flagship phone...",
+      "id": 2
+    },
+    {
+      "label": "IPhone 7 +",
+      "os": "ios",
+      "price": 700,
+      "rate": 3,
+      "memory": 3000,
+      "desc": "",
+      "id": 3
+    },
+    {
+      "label": "Honor 8",
+      "os": "android",
+      "price": 400,
+      "rate": 3,
+      "memory": 3000,
+      "desc": "",
+      "id": 1
+    }
+  ]
+}
