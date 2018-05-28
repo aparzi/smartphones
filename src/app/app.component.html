@@ -2,17 +2,48 @@
 <div class="container text-center">
   <div class="row">
     <div class="col-md-12">
-      <h1>
-        Welcome to {{ title }}!
-      </h1>
-      <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+      <img width="150" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
-      <h2>Lista Smartphone: </h2>
+      <div class="card bg-dark">
+        <!-- FORM UPDATE -->
+        <form (submit)="updateItem(form)" #form="ngForm" class="card-body" [hidden]="(visibleForm!='edit')">
+          <div class="form-group">
+            <input required type="text" class="form-control bg-dark text-white" placeholder="Nome modello" name="label" [ngModel]="(active.label != undefined) ? active.label : ''">
+          </div>
+          <div class="form-group">
+            <input required type="number" min="50" class="form-control bg-dark text-white" placeholder="Prezzo" name="price" [ngModel]="(active.price != undefined) ? active.price : ''">
+          </div>
+          <button type="submit" class="btn btn-warning pull-left" [disabled]="!form.valid">Edit</button>
+          <span><i title="aggiunta" (click)="swapForm('add')" style="font-size: 20px; cursor: pointer;" class="pull-right text-white fa fa-level-up"></i></span>
+        </form>
+        <!-- FORM ADD -->
+        <form (submit)="saveItem(formAdd); formAdd.reset();" #formAdd="ngForm" class="card-body" [hidden]="(visibleForm!='add')">
+          <div class="form-group">
+            <input required type="text" class="form-control bg-dark text-white" placeholder="Nome modello" name="label" ngModel="">
+          </div>
+          <div class="form-group">
+            <input required type="number" min="50" class="form-control bg-dark text-white" placeholder="Prezzo" name="price" ngModel="">
+          </div>
+          <div class="form-group">
+            <select class="form-control bg-dark text-white" name="os" [ngModel]="active.os">
+              <option value="android" selected>Android</option>
+              <option value="ios">Ios</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success pull-left" [disabled]="!formAdd.valid">Add</button>
+          <span><i title="modifica" (click)="swapForm('edit')" style="font-size: 20px; cursor: pointer;" class="pull-right text-white fa fa-level-down"></i></span>
+        </form>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-12">
       <div class="card bg-dark text-white mb-3">
-        <div *ngFor="let device of devices" class="list-group-item list-group-item-action">
+        <div *ngFor="let device of devices" [ngClass]="(device.id == active.id) ? 'bg-warning' : ''" class="list-group-item list-group-item-action" (click)="setActive(device)">
           <!-- os icon -->
           <i class="fa" [ngClass]="(device.os == 'android') ? 'fa-android': 'fa-apple'"></i>
 
@@ -23,9 +54,9 @@
           <div class="pull-right">
             <!-- price -->
             <strong [ngClass]="(device.price > 500) ? 'text-danger' : 'text-success'">{{device.price | currency}}</strong>
-
+            &nbsp;
             <!--trash icon-->
-            <i class="fa fa-trash icon"></i>
+            <i (click)="removeItem(device); form.reset();" class="fa fa-trash icon" style="cursor: pointer;"></i>
           </div>
         </div>
       </div>
